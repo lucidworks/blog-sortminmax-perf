@@ -1,7 +1,7 @@
 blog-sortminmax-perf
 ====================
 
-Performance comparison of sorting on single valued (long) fields compared to sorting on the 2 arg "field" function added in [SOLR-2522](https://issues.apache.org/jira/browse/SOLR-8001) (with the bug fixes applied in [SOLR-8001](https://issues.apache.org/jira/browse/SOLR-8001)).
+Performance comparison of sorting on single valued (long) fields compared to sorting on the 2 arg "field" function added in [SOLR-2522](https://issues.apache.org/jira/browse/SOLR-2522) (with the bug fixes applied in [SOLR-8001](https://issues.apache.org/jira/browse/SOLR-8001)).
 
 Full Writeup at lucidworks.com](http://lucidworks.com/blog/minmax-on-multivalued-field/)
 
