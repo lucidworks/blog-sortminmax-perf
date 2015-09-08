@@ -43,25 +43,34 @@ hossman@tray:~/lucid/blog-sortminmax-perf [master] $ ./index-docs.sh
 
 # asc
 
-./do-3-runs.sh 'max_l asc' max_asc.max_l
-./do-3-runs.sh 'field(multi_l,max) asc' max_asc.multi_l
+./do-many-runs.sh 'max_l asc' max_asc.max_l
+./do-many-runs.sh 'field(multi_l,max) asc' max_asc.multi_l
 
-./do-3-runs.sh 'min_l asc' min_asc.min_l
-./do-3-runs.sh 'field(multi_l,min) asc' min_asc.multi_l
+./do-many-runs.sh 'min_l asc' min_asc.min_l
+./do-many-runs.sh 'field(multi_l,min) asc' min_asc.multi_l
 
-./do-3-runs.sh 'sum(min_l,max_l) asc' sum_asc.min_plus_max_max
-./do-3-runs.sh 'sum(def(field(multi_l,min),0),def(field(multi_l,max),0)) asc' sum_asc.multi_l
+./do-many-runs.sh 'sum(min_l,max_l) asc' sum_asc.min_plus_max_max
+./do-many-runs.sh 'sum(def(field(multi_l,min),0),def(field(multi_l,max),0)) asc' sum_asc.multi_l
 
 # desc 
 
-./do-3-runs.sh 'min_l desc' min_desc.min_l
-./do-3-runs.sh 'field(multi_l,min) desc' min_desc.multi_l
+./do-many-runs.sh 'min_l desc' min_desc.min_l
+./do-many-runs.sh 'field(multi_l,min) desc' min_desc.multi_l
 
-./do-3-runs.sh 'max_l desc' max_desc.max_l
-./do-3-runs.sh 'field(multi_l,max) desc' max_desc.multi_l
+./do-many-runs.sh 'max_l desc' max_desc.max_l
+./do-many-runs.sh 'field(multi_l,max) desc' max_desc.multi_l
 
-./do-3-runs.sh 'sum(min_l,max_l) desc' sum_desc.minmax
-./do-3-runs.sh 'sum(def(field(multi_l,min),0),def(field(multi_l,max),0)) desc' sum_desc.multi_l
+./do-many-runs.sh 'sum(min_l,max_l) desc' sum_desc.minmax
+./do-many-runs.sh 'sum(def(field(multi_l,min),0),def(field(multi_l,max),0)) desc' sum_desc.multi_l
 
 ################ GRAPH RESULTS
 
+hossman@tray:~/lucid/blog-sortminmax-perf [master] $ ./plot.sh 
++ set -o errexit
++ set -o nounset
++ gnuplot -e 'minmax="max"' -e 'sortdir="asc"' plot.gnuplot
++ gnuplot -e 'minmax="min"' -e 'sortdir="asc"' plot.gnuplot
++ gnuplot -e 'minmax="max"' -e 'sortdir="desc"' plot.gnuplot
++ gnuplot -e 'minmax="min"' -e 'sortdir="desc"' plot.gnuplot
++ gnuplot -e 'sortdir="desc"' plot.sum.gnuplot
++ gnuplot -e 'sortdir="desc"' plot.sum.gnuplot
