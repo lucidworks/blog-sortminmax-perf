@@ -22,7 +22,7 @@ my $params = {
     'wt' => 'json',
     'start' => 0,
     'rows' => 0,
-    'q' => 'id:1',       # simple warming query
+    'q' => '*:*',       # simple warming query
     'sort' => $sort,
 };
 $uri->query_form($params);

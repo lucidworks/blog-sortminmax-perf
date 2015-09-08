@@ -6,13 +6,15 @@ hossman@tray:~/lucid/blog-sortminmax-perf [master] $ ./gen-data.sh
 + set -o nounset
 + NUM_DOCS=10000000
 + MAX_NUM_VALS_PER_DOC=13
++ ODDS_DOC_NO_VALS=0.10
 + RANGE_MULT=200
 + MAX_RANGE=100000
 + mkdir -p input
-+ perl gen-docs.pl 10000000 13
++ perl gen-docs.pl 10000000 13 0.10
 + shuf input/sorted_docs.csv
 + perl gen-queries.pl 10000000 200 100000
 + shuf input/sorted_queries.tsv
+
 
 ### Launching solr for indexing & all tests...
 
@@ -30,17 +32,16 @@ hossman@tray:~/lucid/blog-sortminmax-perf [master] $ ./index-docs.sh
 + curl 'http://localhost:8983/solr/perftest/update?header=false&fieldnames=id,multi_l&f.multi_l.split=true&f.multi_l.separator=%20&commit=true' -H 'Content-Type: application/csv' --data-binary @-
 <?xml version="1.0" encoding="UTF-8"?>
 <response>
-<lst name="responseHeader"><int name="status">0</int><int name="QTime">617486</int></lst>
+<lst name="responseHeader"><int name="status">0</int><int name="QTime">713967</int></lst>
 </response>
-
 
 # ... then shutdown solr
 
 ################ TESTS
 
-### Solr is started fresh before each of the following commands (ensure consistent warmup)
+### Solr is started fresh before each of the following commands (to ensure consistent warmup)
 
-    TODO
+# asc
 
 ./do-3-runs.sh 'max_l asc' max_asc.max_l
 ./do-3-runs.sh 'field(multi_l,max) asc' max_asc.multi_l
@@ -48,10 +49,19 @@ hossman@tray:~/lucid/blog-sortminmax-perf [master] $ ./index-docs.sh
 ./do-3-runs.sh 'min_l asc' min_asc.min_l
 ./do-3-runs.sh 'field(multi_l,min) asc' min_asc.multi_l
 
+./do-3-runs.sh 'sum(min_l,max_l) asc' sum_asc.min_plus_max_max
+./do-3-runs.sh 'sum(def(field(multi_l,min),0),def(field(multi_l,max),0)) asc' sum_asc.multi_l
+
+# desc 
 
 ./do-3-runs.sh 'min_l desc' min_desc.min_l
 ./do-3-runs.sh 'field(multi_l,min) desc' min_desc.multi_l
 
 ./do-3-runs.sh 'max_l desc' max_desc.max_l
 ./do-3-runs.sh 'field(multi_l,max) desc' max_desc.multi_l
+
+./do-3-runs.sh 'sum(min_l,max_l) desc' sum_desc.minmax
+./do-3-runs.sh 'sum(def(field(multi_l,min),0),def(field(multi_l,max),0)) desc' sum_desc.multi_l
+
+################ GRAPH RESULTS
 
