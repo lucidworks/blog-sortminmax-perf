@@ -31,7 +31,7 @@ set title "Relative Request Time For Sorting (sum, ".sortdir.")" noenhanced
 # (since the queries were randomized before running them, this doesn't throw out any signficantly
 # important ranges of query data -- ie: not the 20 smallest queries)
 
-plot datafile("minmax") every ::20 using 1:(reltime_ms($1,$2)):(reltime_ms($1,$3)) with errorbars title "min_l + max_l" ls 1, \
+plot datafile("min_plus_max") every ::20 using 1:(reltime_ms($1,$2)):(reltime_ms($1,$3)) with errorbars title "min_l + max_l" ls 1, \
      datafile("multi_l") every ::20 using 1:(reltime_ms($1,$2)):(reltime_ms($1,$3)) with errorbars title "min(multi) + max(multi)" ls 2
 
 # zoom in to the low range of the x axis
